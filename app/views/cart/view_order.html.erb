@@ -1,0 +1,31 @@
+<h1>Cart</h1>
+<div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Product</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Total Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @line_items.each do |line_item| %>
+				<tr>
+					<td><%= line_item.product.name %></td>
+					<td><%= number_to_currency(line_item.product.price, :precision => (line_item.product.price.round == line_item.product.price) ? 0 : 2) %></td>
+					<td><%= line_item.product.quantity %></td>
+					<td><%= number_to_currency(line_item.line_item_total, :precision => (line_item.line_item_total.round == line_item.line_item_total) ? 0 : 2) %></td>
+					<td><%= link_to "Remove Item", delete_from_cart_path(line_item_id: line_item.id), method: :post, class: "btn btn-danger", data: { confirm: "Are You Sure?" } %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+<% unless @line_items.empty? %>
+<%= link_to "Proceed To Checkout", checkout_path, class: "btn btn-success" %>
+<% else %>
+<a href="#" class="btn btn-default" disabled>Proceed To Checkout</a>
+<% end %>
+
+<%= link_to "Continue Shopping", root_path ,class: "btn btn-default" %>

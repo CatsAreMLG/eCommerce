@@ -35,7 +35,16 @@
 	          </p>
 	        </div>
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        	<div style="display: inline-block;">
+	        		<%= form_tag add_to_cart_path, method: :post do %>
+	        			<%= hidden_field_tag :product_id, product.id %>
+	        			Quantity: <%= number_field_tag :quantity, 1, class: "form-control", style: "width: 120px; display: inline-block;" %>
+	        			<%= submit_tag "Add To Cart", class: "btn btn-primary", style: "display: inline-block;" %>
+	        		<% end %>
+	        	</div>
+	        	<div style="display: inline-block;">
+	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        	</div>
 	        </div>
 	      </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->
