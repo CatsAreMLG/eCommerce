@@ -20,7 +20,7 @@
   <tbody>
     <% @products.each do |product| %>
       <tr>
-        <td> <%= image_tag product.image.url.to_s, size: 50 %></td>
+        <td> <%= image_tag product.image.url.to_s, size: 50, class: "imagesThumb" %></td>
         <td><%= product.name %></td>
         <td><%= number_to_currency(product.price, :precision => (product.price.round == product.price) ? 0 : 2) %></td>
         <td><%= product.quantity %></td>
@@ -28,9 +28,9 @@
         <td><%= product.brand %></td>
         <td><%= product.rating %>/5</td>
         <td><%= product.category.name %></td>
-        <td><%= link_to 'Show', product class="btn btn-info" %></td>
-        <td><%= link_to 'Edit', edit_product_path(product) class="btn btn-defualt" %></td>
-        <td><%= link_to 'Delete', product, method: :delete, data: { confirm: 'Are you sure?' } class="btn btn-danger" %></td>
+        <td><%= link_to 'Show', product, class: "btn btn-info" %></td>
+        <td><%= link_to 'Edit', edit_product_path(product), class: "btn btn-defualt" %></td>
+        <td><%= link_to 'Delete', product, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
