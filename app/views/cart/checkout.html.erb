@@ -1,2 +1,47 @@
-<h1>Cart#checkout</h1>
-<p>Find me in app/views/cart/checkout.html.erb</p>
+<h1 class="tcenter">Thanks For Shopping with us!</h1>
+<h3>Your Order</h3>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Product</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total Price</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @order.order_items.each do |key, value| %>
+			<tr>
+				<td><%= Product.find(key).name %></td>
+				<td><%= value %></td>
+				<td><%= number_to_currency(Product.find(key).price) %></td>
+				<td><%= number_to_currency(Product.find(key).price) * value %></td>
+			</tr>
+		<% end%>
+	</tbody>
+</table>
+<p>
+	<strong>Sub Total:</strong> <%= number_to_currency(@order.subtotal) %><br>
+</p>
+<p>
+	<strong>Tax Total:</strong> <%= number_to_currency(@order.sales_tax) %><br>
+</p>
+<p>
+	<strong>Order Total:</strong> <%= number_to_currency(@order.grand_total) %><br>
+</p>
+
+<div>
+	<%= link_to "Empty Cart", cancel_checkout_path(order_id: @order.id), method: :post, class: "btn btn-danger", data: { confirm: "Are You Sure?" } %>
+</div>
+
+<div style="display: inline-block;">
+	<%= form_tag order_complete_path do || %>
+		<div>
+			<%= hidden_field_tag :order_id, @order.id %>
+		</div>
+		<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+		data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+	    data-amount="<%= (@order.grand_total.to_f.round(2)*100) %>"
+	    data-description="Order #<%= @order.id %>">	    </script>
+	<% end %>
+</div>

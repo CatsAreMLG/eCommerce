@@ -28,14 +28,32 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Cart", view_order_path, class: "nav-link" %></li>
-        <% if current_user %>
-          <li><%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link" %></li>
-          <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %></li>
-        <% else %>
-          <li><%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %></li>
-          <li><%= link_to "Log In", new_user_session_path, class: "nav-link" %></li>
+
+        <% if signed_in? && current_user.role == "admin" %>
+          <li class="dropdown">
+            <a href="#" class="drop"></a>
+          </li>
+         <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown3" aria-haspopup="true" aria-expanded="false">Admin</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown3">
+            <%= link_to "Categories", categories_path, class: "dropdown-item" %>
+            <%= link_to "Products", products_path, class: "dropdown-item" %>
+          </div>
+         </li>
         <% end %>
+
+        <li><%= link_to "Cart (#{@line_items.sum('quantity')})", view_order_path, class: "nav-link" %></li>
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dropdown4" aria-haspopup="true" aria-expanded="false">Hello, <%= current_user.email %></a>
+        <div class="dropdown-menu" aria-labelledby="dropdown4">
+          <% if current_user %>
+            <%= link_to "My Orders", your_orders_path, class: "dropdown-item" %>
+            <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
+            <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          <% else %>
+            <%= link_to "Sign Up", new_user_registration_path, class: "dropdown-item" %>
+            <%= link_to "Log In", new_user_session_path, class: "dropdown-item" %>
+          <% end %>
+        </div>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -12,7 +12,6 @@
  *
  */
 
-
 .product {
 	background: #D9CED5;
 }
@@ -24,6 +23,10 @@
 }
 .imagesThumb {
 	max-width: 50px;
+	height: auto ;
+}
+.imagesP {
+	max-width: 150px;
 	height: auto ;
 }
 .rows {

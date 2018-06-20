@@ -21,8 +21,13 @@
 				      		<p><%= number_to_currency(product.price, :precision => (product.price.round == product.price) ? 0 : 2) %></p>
 				      		<p>
 				      			<a href="#" class="anoline" data-toggle="modal" data-target="#myModal_<%= product.id %>">
-				      				<span class="glyphicon glyphicon-plus"></span> Quick Info
+				      				<span class="oi oi-plus"></span> Quick Info
 				      			</a>
+				      			<% unless product.quantity == 0 %> 
+				      				<%= product.quantity %> left in stock.
+			        			<% else %>
+			        				<a class="btn btn-disabled" disabled>Out Of Stock</a>
+			        			<% end %>
 				      		</p>
 				      	</div>
 			      	</div>
@@ -50,8 +55,16 @@
 				        	<div style="display: inline-block;">
 				        		<%= form_tag add_to_cart_path, method: :post do %>
 				        			<%= hidden_field_tag :product_id, product.id %>
-				        			Quantity: <%= number_field_tag :quantity, 1, class: "form-control", style: "width: 120px; display: inline-block;" %>
-				        			<%= submit_tag "Add To Cart", class: "btn btn-primary", style: "display: inline-block;" %>
+				        			<% if product.quantity == 0 %> 
+				        				Quantity: <%= number_field_tag :quantity, nil, min: 0 , max: product.quantity, class: "form-control", style: "width: 120px; display: inline-block;" %>
+				        			<% else %>
+				        				Quantity: <%= number_field_tag :quantity, nil, min: 1 , max: product.quantity, class: "form-control", style: "width: 120px; display: inline-block;" %>
+				        			<% end %>
+				        			<% unless product.quantity == 0 %> 
+				        				<%= submit_tag "Add To Cart", class: "btn btn-primary", style: "display: inline-block;" %>
+				        			<% else %>
+				        				<a disabled class="btn btn-disabled">Out Of Stock</a>
+				        			<% end %>
 				        		<% end %>
 				        	</div>
 				        </div>
